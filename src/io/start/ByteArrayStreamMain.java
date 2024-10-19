@@ -1,4 +1,4 @@
-package src.io.start;
+package io.start;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
