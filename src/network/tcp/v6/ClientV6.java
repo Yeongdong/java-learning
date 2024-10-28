@@ -1,4 +1,4 @@
-package network.tcp.v4;
+package network.tcp.v6;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -6,23 +6,18 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
-import static network.tcp.SocketCloseUtil.closeAll;
 import static util.MyLogger.log;
 
-public class ClientV4 {
+public class ClientV6 {
     private static final int PORT = 12345;
 
     public static void main(String[] args) throws IOException {
         log("클라이언트 시작");
 
-        // finally 블록에서 변수에 접근해야 한다. 따라서 try 블록 안에서 선언할 수 없다.
-        Socket socket = null;
-        DataInputStream input = null;
-        DataOutputStream output = null;
-        try {
-            socket = new Socket("localhost", PORT);
-            input = new DataInputStream(socket.getInputStream());
-            output = new DataOutputStream(socket.getOutputStream());
+        try (Socket socket = new Socket("localhost", PORT);
+             DataInputStream input = new DataInputStream(socket.getInputStream());
+             DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
+
             log("소켓 연결: " + socket);
 
             Scanner scanner = new Scanner(System.in);
@@ -44,9 +39,6 @@ public class ClientV4 {
             }
         } catch (IOException e) {
             log(e);
-        } finally {
-            closeAll(socket, input, output);
-            log("연결 종료: " + socket);
         }
     }
 }
